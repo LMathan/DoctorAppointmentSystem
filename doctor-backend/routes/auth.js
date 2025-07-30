@@ -6,9 +6,7 @@ const config = require("config");
 const auth = require("../middleware/auth");
 const User = require("../models/User");
 
-// @route   POST /api/auth/register
-// @desc    Register user
-// @access  Public
+
 router.post("/register", async (req, res) => {
   const { name, email, password, role, specialization } = req.body;
 
@@ -16,7 +14,6 @@ router.post("/register", async (req, res) => {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ msg: "User already exists" });
 
-    // If role is doctor, save specialization
     user = new User({
       name,
       email,
@@ -43,9 +40,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// @route   POST /api/auth/login
-// @desc    Authenticate user & get token
-// @access  Public
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -69,9 +64,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// @route   GET /api/auth/users
-// @desc    Get all users (used to show doctors in dashboard)
-// @access  Private
+
 router.get("/users", auth, async (req, res) => {
   try {
     const users = await User.find().select("-password");
